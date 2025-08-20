@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Awareness Training</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --secondary: #0b5394;
+            --accent: #e53e3e;
+            --light: #f8f9fa;
+            --dark: #202124;
+            --success: #34a853;
+            --warning: #f9ab00;
+            --gray: #5f6368;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z' fill='%23f5f7fa'%3E%3C/path%3E%3C/svg%3E");
+            background-size: 1200px 100px;
+            background-repeat: no-repeat;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 50px;
+            padding: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+        
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: none;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+        
+        .tab-btn:hover {
+            color: var(--primary);
+        }
+        
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2 i {
+            margin-right: 0.75rem;
+            font-size: 1.8rem;
+        }
+        
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .warning-box {
+            background-color: #fff8e6;
+            border-left: 4px solid var(--warning);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+        }
+        
+        .danger-box {
+            background-color: #feecf0;
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+        }
+        
+        .info-box {
+            background-color: #e8f4fd;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+        }
+        
+        .quiz-container {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-options {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .quiz-option {
+            padding: 1rem;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .quiz-option:hover {
+            border-color: var(--primary);
+        }
+        
+        .quiz-option.selected {
+            border-color: var(--primary);
+            background-color: #e8f0fe;
+        }
+        
+        .quiz-option.correct {
+            border-color: var(--success);
+            background-color: #e6f4ea;
+        }
+        
+        .quiz-option.incorrect {
+            border-color: var(--accent);
+            background-color: #fce8e6;
+        }
+        
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .quiz-feedback.correct {
+            background-color: #e6f4ea;
+            border-left: 4px solid var(--success);
+            display: block;
+        }
+        
+        .quiz-feedback.incorrect {
+            background-color: #fce8e6;
+            border-left: 4px solid var(--accent);
+            display: block;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 1000;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .completion-badge {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+        
+        .badge-icon {
+            font-size: 4rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+            animation: bounce 1s ease infinite;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+                border-radius: 12px;
+            }
+            
+            .tab-btn {
+                margin-bottom: 0.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        .email-example {
+            background: #f1f3f4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: monospace;
+            position: relative;
+        }
+        
+        .phishing-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .website-example {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0;
+        }
+        
+        .browser-window {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .browser-header {
+            background: #e8e8e8;
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .browser-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .browser-button.red { background: #ff5f56; }
+        .browser-button.yellow { background: #ffbd2e; }
+        .browser-button.green { background: #27c93f; }
+        
+        .browser-url {
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            flex-grow: 1;
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin: 0 1rem;
+            font-family: monospace;
+        }
+        
+        .browser-content {
+            background: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .browser-content h3 {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <header>
+        <div class="header-content">
+            <h1><i class="fas fa-shield-alt"></i> Phishing Awareness Training</h1>
+            <p class="subtitle">Learn how to recognize and defend against phishing attempts to protect yourself and your organization</p>
+        </div>
+        <div class="header-wave"></div>
+    </header>
+    
+    <div class="container">
+        <div class="nav-tabs">
+            <button class="tab-btn active" data-target="intro">Introduction</button>
+            <button class="tab-btn" data-target="what-is">What is Phishing?</button>
+            <button class="tab-btn" data-target="recognize">Recognize Phishing</button>
+            <button class="tab-btn" data-target="websites">Fake Websites</button>
+            <button class="tab-btn" data-target="tactics">Social Engineering</button>
+            <button class="tab-btn" data-target="practices">Best Practices</button>
+            <button class="tab-btn" data-target="examples">Real Examples</button>
+            <button class="tab-btn" data-target="quiz">Interactive Quiz</button>
+        </div>
+        
+        <section id="intro" class="section visible">
+            <h2><i class="fas fa-info-circle"></i> Introduction</h2>
+            <p>Phishing is one of the most common cyberattacks, where attackers trick users into revealing sensitive information such as passwords, banking details, or personal data. This training will help you recognize and defend against phishing attempts.</p>
+            
+            <div class="info-box">
+                <p><strong>Did you know?</strong> According to recent cybersecurity reports:</p>
+                <ul>
+                    <li>Phishing attacks account for over 80% of reported security incidents</li>
+                    <li>Approximately 1.5 million new phishing sites are created each month</li>
+                    <li>95% of all attacks on enterprise networks are the result of successful spear phishing</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="what-is" class="section">
+            <h2><i class="fas fa-question-circle"></i> What is Phishing?</h2>
+            <p>Phishing is a fraudulent attempt to obtain sensitive information by disguising as a trustworthy entity in electronic communication.</p>
+            
+            <ul>
+                <li>Often done via <strong>emails, fake websites, phone calls, or SMS</strong></li>
+                <li>Targets personal and financial information</li>
+                <li>Uses psychological manipulation to exploit human vulnerabilities</li>
+            </ul>
+            
+            <div class="email-example">
+                <div class="phishing-tag">PHISHING EXAMPLE</div>
+                <p><strong>From:</strong> security@your-bank.com (actually: security@bank-secure.com)</p>
+                <p><strong>Subject:</strong> Urgent: Your account has been compromised!</p>
+                <p>Dear Valued Customer,</p>
+                <p>We've detected suspicious activity on your account. To prevent temporary suspension, please verify your identity by clicking the link below and updating your information.</p>
+                <p><a href="#">https://your-bank.secure-login.com/verify</a> (actually malicious link)</p>
+                <p>If you don't act within 24 hours, your account will be restricted.</p>
+                <p>Sincerely,<br>Your Bank Security Team</p>
+            </div>
+        </section>
+        
+        <section id="recognize" class="section">
+            <h2><i class="fas fa-envelope"></i> How to Recognize Phishing Emails</h2>
+            
+            <div class="warning-box">
+                <p>Attackers constantly refine their techniques, but most phishing emails share common characteristics.</p>
+            </div>
+            
+            <h3>Key Indicators:</h3>
+            <ul>
+                <li><strong>Suspicious Sender:</strong> Check the email address carefully (e.g., `support@bank-secure.com` vs. `support@bank.com`).</li>
+                <li><strong>Urgency or Threats:</strong> "Act now or your account will be suspended!"</li>
+                <li><strong>Generic Greetings:</strong> "Dear Customer" instead of your actual name.</li>
+                <li><strong>Links & Attachments:</strong> Hover over links before clicking; be cautious with attachments.</li>
+                <li><strong>Spelling/Grammar Mistakes:</strong> Many phishing emails contain errors.</li>
+                <li><strong>Too Good to Be True:</strong> Offers that seem unrealistically generous.</li>
+            </ul>
+            
+            <div class="danger-box">
+                <p><strong>Advanced tactic:</strong> Some sophisticated phishing attempts use your real name and appear to come from legitimate senders by spoofing email addresses. Always verify unusual requests through a different communication channel.</p>
+            </div>
+        </section>
+        
+        <section id="websites" class="section">
+            <h2><i class="fas fa-globe"></i> Fake Websites Indicators</h2>
+            <p>Phishing often leads to fake websites designed to steal your credentials. Here's how to identify them:</p>
+            
+            <div class="website-example">
+                <div class="browser-window">
+                    <div class="browser-header">
+                        <div class="browser-button red"></div>
+                        <div class="browser-button yellow"></div>
+                        <div class="browser-button green"></div>
+                        <div class="browser-url">http://www.paypai.com/security/update</div>
+                    </div>
+                    <div class="browser-content">
+                        <h3>Please Log In to Verify Your Account</h3>
+                        <p>We've detected unusual activity on your account</p>
+                        <form>
+                            <input type="text" placeholder="Email or Phone" style="padding: 10px; margin: 10px; width: 80%; border-radius: 4px; border: 1px solid #ccc;">
+                            <input type="password" placeholder="Password" style="padding: 10px; margin: 10px; width: 80%; border-radius: 4px; border: 1px solid #ccc;">
+                            <button style="padding: 10px 20px; background: #0070ba; color: white; border: none; border-radius: 4px; margin: 10px;">Log In</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Identification Tips:</h3>
+            <ul>
+                <li><strong>Misspelled URLs</strong> (e.g., `faceboook.com`, `paypai.com`)</li>
+                <li><strong>HTTP only</strong> (no HTTPS lock symbol)</li>
+                <li><strong>Unusual Design</strong> or low-quality logos</li>
+                <li><strong>Pop-up login forms</strong> or redirects</li>
+                <li><strong>Certificate errors</strong> in your browser</li>
+                <li><strong>Unprofessional content</strong> with spelling errors</li>
+            </ul>
+        </section>
+        
+        <section id="tactics" class="section">
+            <h2><i class="fas fa-users"></i> Social Engineering Tactics</h2>
+            <p>Attackers use psychological manipulation to trick victims. Understanding these tactics is your first defense.</p>
+            
+            <h3>Common Tactics:</h3>
+            <ul>
+                <li><strong>Authority:</strong> Pretending to be your boss, IT admin, or government agency</li>
+                <li><strong>Urgency:</strong> "Respond within 10 minutes or lose access."</li>
+                <li><strong>Fear:</strong> Threat of legal action, account closure, or penalties</li>
+                <li><strong>Curiosity/Temptation:</strong> Fake rewards, lottery wins, or job offers</li>
+                <li><strong>Social Proof:</strong> "Your colleague already completed this."</li>
+                <li><strong>Scarcity:</strong> "Limited time offer" or "exclusive opportunity"</li>
+            </ul>
+            
+            <div class="info-box">
+                <p><strong>Remember:</strong> Legitimate organizations will never pressure you to bypass security protocols or ask for sensitive information via email.</p>
+            </div>
+        </section>
+        
+        <section id="practices" class="section">
+            <h2><i class="fas fa-check-circle"></i> Best Practices to Stay Safe</h2>
+            
+            <div class="info-box">
+                <p>Implementing these practices significantly reduces your risk of falling victim to phishing attacks.</p>
+            </div>
+            
+            <h3>Essential Security Habits:</h3>
+            <ul>
+                <li>Always <strong>verify sender</strong> before clicking links or downloading attachments</li>
+                <li>Type website URLs manually instead of clicking links in emails</li>
+                <li>Enable <strong>multi-factor authentication (MFA)</strong> on all accounts</li>
+                <li>Do not share sensitive information via email</li>
+                <li>Keep antivirus and software updated</li>
+                <li>Report suspicious emails to your IT/security team</li>
+                <li>Regularly review account statements and credit reports</li>
+                <li>Educate colleagues and family members about phishing risks</li>
+            </ul>
+            
+            <div class="warning-box">
+                <p>Even with these precautions, remain vigilant. Attackers constantly develop new techniques to bypass security measures.</p>
+            </div>
+        </section>
+        
+        <section id="examples" class="section">
+            <h2><i class="fas fa-binoculars"></i> Real-World Examples</h2>
+            <p>Understanding historical phishing campaigns helps recognize future attempts.</p>
+            
+            <h3>Notable Phishing Attacks:</h3>
+            
+            <div class="danger-box">
+                <h4>Google Docs Phishing (2017)</h4>
+                <p>Attackers sent fake document-sharing invites that appeared to come from known contacts. Clicking the link directed users to a legitimate-looking Google login page that harvested credentials.</p>
+                <p><strong>Impact:</strong> Affected over 1 million Gmail users</p>
+            </div>
+            
+            <div class="danger-box">
+                <h4>COVID-19 Scams (2020-2022)</h4>
+                <p>Attackers exploited pandemic fears with fake health advisories, PPE offers, vaccine registration, and economic relief programs to steal credentials and payment information.</p>
+                <p><strong>Impact:</strong> Billions in losses globally, targeting vulnerable populations</p>
+            </div>
+            
+            <div class="danger-box">
+                <h4>Banking Fraud</h4>
+                <p>Emails pretending to be from financial institutions warning about suspicious activity and requesting immediate verification of account details.</p>
+                <p><strong>Technique:</strong> Used official logos and professional language to appear legitimate</p>
+            </div>
+        </section>
+        
+        <section id="quiz" class="section">
+            <h2><i class="fas fa-puzzle-piece"></i> Interactive Quiz</h2>
+            <p>Test your knowledge with these realistic scenarios. Select your answer to see immediate feedback.</p>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">1. An email says: "Your PayPal account has been suspended. Click here to verify your details." What should you do?</div>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">A) Click and enter details</div>
+                    <div class="quiz-option" data-correct="true">B) Ignore & report it</div>
+                </div>
+                <div class="quiz-feedback correct">
+                    <p><strong>Correct!</strong> Legitimate companies won't ask you to verify account details via email links. Always navigate directly to the official website instead of clicking links in emails.</p>
+                </div>
+                <div class="quiz-feedback incorrect">
+                    <p><strong>Incorrect.</strong> Clicking links in unsolicited emails is dangerous. Always navigate directly to the official website instead of clicking links in emails.</p>
+                </div>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">2. The link looks like: `http://paypall.com/secure`. Safe or suspicious?</div>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">A) Safe</div>
+                    <div class="quiz-option" data-correct="true">B) Suspicious</div>
+                </div>
+                <div class="quiz-feedback correct">
+                    <p><strong>Correct!</strong> This URL is suspicious for multiple reasons: it uses "http" instead of "https", has a misspelling ("paypall" instead of "paypal"), and isn't the official PayPal domain.</p>
+                </div>
+                <div class="quiz-feedback incorrect">
+                    <p><strong>Incorrect.</strong> This URL is suspicious for multiple reasons: it uses "http" instead of "https", has a misspelling ("paypall" instead of "paypal"), and isn't the official PayPal domain.</p>
+                </div>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">3. Your "IT department" emails asking for your password. What do you do?</div>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">A) Share password</div>
+                    <div class="quiz-option" data-correct="true">B) Report the email</div>
+                </div>
+                <div class="quiz-feedback correct">
+                    <p><strong>Correct!</strong> Legitimate IT staff will never ask for your password. This is a common phishing tactic. Always report such requests to your security team.</p>
+                </div>
+                <div class="quiz-feedback incorrect">
+                    <p><strong>Incorrect.</strong> Legitimate IT staff will never ask for your password. This is a common phishing tactic. Always report such requests to your security team.</p>
+                </div>
+            </div>
+            
+            <div class="completion-badge" id="completionBadge">
+                <div class="badge-icon"><i class="fas fa-trophy"></i></div>
+                <h3>Training Complete!</h3>
+                <p>You've successfully finished the Phishing Awareness Training. Remember to stay vigilant and think before you click!</p>
+                <button class="btn" id="restartQuiz">Restart Training</button>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p>Phishing Awareness Training © 2023 | Remember: Think before you click!</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab navigation
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const sections = document.querySelectorAll('.section');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const target = button.getAttribute('data-target');
+                    
+                    // Update active tab
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Show target section
+                    sections.forEach(section => {
+                        if (section.id === target) {
+                            section.classList.add('visible');
+                            // Scroll to section
+                            section.scrollIntoView({behavior: 'smooth'});
+                        } else {
+                            section.classList.remove('visible');
+                        }
+                    });
+                });
+            });
+            
+            // Quiz functionality
+            const quizOptions = document.querySelectorAll('.quiz-option');
+            let completedQuestions = 0;
+            const totalQuestions = document.querySelectorAll('.quiz-container').length;
+            
+            quizOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    const container = option.closest('.quiz-container');
+                    const options = container.querySelectorAll('.quiz-option');
+                    const feedback = container.querySelectorAll('.quiz-feedback');
+                    
+                    // Mark all options as not selected
+                    options.forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect'));
+                    
+                    // Mark clicked option as selected
+                    option.classList.add('selected');
+                    
+                    // Show if correct or incorrect
+                    if (option.getAttribute('data-correct') === 'true') {
+                        option.classList.add('correct');
+                        feedback.forEach(fb => fb.classList.remove('correct', 'incorrect'));
+                        container.querySelector('.quiz-feedback.correct').classList.add('correct');
+                        completedQuestions++;
+                    } else {
+                        option.classList.add('incorrect');
+                        // Also show correct answer
+                        options.forEach(opt => {
+                            if (opt.getAttribute('data-correct') === 'true') {
+                                opt.classList.add('correct');
+                            }
+                        });
+                        feedback.forEach(fb => fb.classList.remove('correct', 'incorrect'));
+                        container.querySelector('.quiz-feedback.incorrect').classList.add('incorrect');
+                    }
+                    
+                    // Check if all questions are answered
+                    if (completedQuestions === totalQuestions) {
+                        document.getElementById('completionBadge').style.display = 'block';
+                        document.getElementById('completionBadge').scrollIntoView({behavior: 'smooth'});
+                    }
+                });
+            });
+            
+            // Restart quiz button
+            document.getElementById('restartQuiz').addEventListener('click', () => {
+                completedQuestions = 0;
+                document.getElementById('completionBadge').style.display = 'none';
+                
+                // Reset all quiz options
+                quizOptions.forEach(option => {
+                    option.classList.remove('selected', 'correct', 'incorrect');
+                });
+                
+                // Hide all feedback
+                document.querySelectorAll('.quiz-feedback').forEach(fb => {
+                    fb.classList.remove('correct', 'incorrect');
+                });
+                
+                // Scroll to top
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            });
+            
+            // Progress bar
+            window.addEventListener('scroll', () => {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollPercent = (scrollTop / (documentHeight - windowHeight)) * 100;
+                
+                document.getElementById('progressBar').style.width = scrollPercent + '%';
+            });
+            
+            // Animate sections on scroll
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
